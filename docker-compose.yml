@@ -1,0 +1,32 @@
+version: '3.6'
+services:
+  web:
+    image: gitlab/gitlab-ce:latest
+    container_name: $GITLAB_NAME
+    restart: on-failure
+    hostname: gitlab.test.com
+    #environment:
+      #GITLAB_OMNIBUS_CONFIG: |
+      #  external_url=https://gitlab.test.com
+    ports:
+      - '8081:80'
+      - '443:443' # HTTPS
+      - '22:22' # SSH
+    volumes:
+      - '$GITLAB_HOME/config:/etc/gitlab' # configuration files
+      - '$GITLAB_HOME/logs:/var/log/gitlab'
+      - '$GITLAB_HOME/data:/var/opt/gitlab'
+    shm_size: '256m' # shared memory
+    networks:
+      gitlab-network:
+        ipv4_address: 192.168.0.10
+
+networks:
+  gitlab-network:
+      attachable: true
+      ipam:
+        driver: default
+        config:
+          - subnet: 192.168.0.0/24
+
+
