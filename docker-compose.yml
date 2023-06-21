@@ -15,8 +15,7 @@ services:
       - '$GITLAB_HOME/logs:/var/log/gitlab'
       - '$GITLAB_HOME/data:/var/opt/gitlab'
     networks:
-      cloud-network:
-        ipv4_address: 192.168.1.1
+      - cloud-network
 
   jenkins:
     image: jenkins/jenkins
@@ -28,8 +27,7 @@ services:
     volumes:
       - jenkins_home:/var/jenkins_home
     networks:
-      cloud-network:
-        ipv4_address: 192.168.1.2
+      - cloud-network
 
 networks:
   cloud-network:
